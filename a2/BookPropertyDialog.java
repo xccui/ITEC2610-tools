@@ -1,19 +1,13 @@
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JDialog;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JTextField;
-import java.awt.Container;
-import java.awt.GridLayout;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Objects;
 
 /**
  * The dialog to show/save the book's properties.
  */
-public abstract class BookPropertyDialog extends JDialog {
+public abstract class BookPropertyDialog extends JDialog implements ActionListener {
 
     protected JLabel titleLabel;
     protected JTextField titleTextField;
@@ -64,7 +58,7 @@ public abstract class BookPropertyDialog extends JDialog {
         contentPane.add(pagesTextField);
 
         contentPane.add(categoryLabel);
-        categoryComboBox.setModel(new DefaultComboBoxModel<>(new String[] {
+        categoryComboBox.setModel(new DefaultComboBoxModel<>(new String[]{
                 Book.BookCategory.Programming.name(),
                 Book.BookCategory.Database.name(),
                 Book.BookCategory.Design.name()
@@ -73,39 +67,36 @@ public abstract class BookPropertyDialog extends JDialog {
         contentPane.add(categoryComboBox);
         contentPane.add(saveButton);
         contentPane.add(cancelButton);
-        saveButton.addActionListener(a -> saveAction(a));
-        cancelButton.addActionListener(a -> cancelAction(a));
+        saveButton.addActionListener(this);
+        cancelButton.addActionListener(this);
 
         this.pack();
         this.setLocationRelativeTo(this.getOwner());
         this.setModal(true);
     }
 
-    /**
-     * Action for the SAVE button.
-     */
-    private void saveAction(ActionEvent e) {
-        try {
-            Book book = new Book(
-                    titleTextField.getText(),
-                    authorsTextField.getText(),
-                    Integer.valueOf(pagesTextField.getText()),
-                    Book.BookCategory.valueOf(Objects.requireNonNull(categoryComboBox.getSelectedItem()).toString()));
-            doSave(book);
-        } catch(Exception ex) {
-            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error!", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-        JOptionPane.showMessageDialog(this, "Save successful!");
-        bookListWindow.resetToAll();
-        this.dispose();
-    }
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == saveButton) {
+            // Action for the SAVE button
+            // TODO Add your code here...
+            // Handle the NumberFormatException caused by Integer.valueOf().
+            {
+                Book book = new Book(
+                        titleTextField.getText(),
+                        authorsTextField.getText(),
+                        Integer.valueOf(pagesTextField.getText()),
+                        Book.BookCategory.valueOf(Objects.requireNonNull(categoryComboBox.getSelectedItem()).toString()));
+                doSave(book);
+            }
 
-    /**
-     * Action for the CANCEL button.
-     */
-    private void cancelAction(ActionEvent e) {
-        this.dispose();
+            JOptionPane.showMessageDialog(this, "Save successful!");
+            bookListWindow.resetToAll();
+            this.dispose();
+        } else if (e.getSource() == cancelButton) {
+            // Action for the CANCEL button
+            this.dispose();
+        }
     }
 
     /**
