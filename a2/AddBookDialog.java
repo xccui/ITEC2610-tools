@@ -10,6 +10,5 @@ public class AddBookDialog extends BookPropertyDialog {
     @Override
     protected void doSave(Book book) {
         // TODO Add your code here...
-        bookCollection.add(book);
     }
 }

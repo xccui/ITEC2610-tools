@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -21,16 +22,6 @@ public class BookStorage {
      */
     public void initBooks() {
         // TODO Add your code here...
-        bookMap = new HashMap<>();
-        bookMap.put("Book1", new Book("Book1", "AuthorA", 100, Book.BookCategory.Programming));
-        bookMap.put("Book2", new Book("Book2", "AuthorB", 200, Book.BookCategory.Design));
-        bookMap.put("Book3", new Book("Book3", "AuthorB", 300, Book.BookCategory.Database));
-        bookMap.put("Book4", new Book("Book4", "AuthorB", 400, Book.BookCategory.Programming));
-        bookMap.put("Book5", new Book("Book5", "AuthorB", 500, Book.BookCategory.Programming));
-        bookMap.put("Book11", new Book("Book11", "AuthorB", 600, Book.BookCategory.Database));
-        bookMap.put("Book21", new Book("Book21", "AuthorB", 700, Book.BookCategory.Programming));
-        bookMap.put("Book31", new Book("Book31", "AuthorB", 800, Book.BookCategory.Design));
-        bookMap.put("Book41", new Book("Book41", "AuthorB", 900, Book.BookCategory.Programming));
     }
 
     /**
@@ -38,7 +29,6 @@ public class BookStorage {
      */
     public void update(Book book) {
         // TODO Add your code here...
-        bookMap.put(book.getTitle(), book);
     }
 
     /**
@@ -46,7 +36,6 @@ public class BookStorage {
      */
     public void remove(String bookTitle) {
         // TODO Add your code here...
-        bookMap.remove(bookTitle);
     }
 
     /**
@@ -54,7 +43,6 @@ public class BookStorage {
      */
     public void add(Book book) {
         // TODO Add your code here...
-        bookMap.put(book.getTitle(), book);
     }
 
     /**
@@ -62,7 +50,7 @@ public class BookStorage {
      */
     public Book getByTitle(String title) {
         // TODO Add your code here...
-        return bookMap.get(title);
+        return null;
     }
 
     /**
@@ -70,7 +58,7 @@ public class BookStorage {
      */
     public List<Book> titleSearch(String keyword) {
         // TODO Add your code here...
-        return sortByTitle(bookMap.entrySet().stream().filter(e -> e.getKey().contains(keyword)).map(Map.Entry::getValue).collect(Collectors.toList()));
+        return Collections.emptyList();
     }
 
     /**
@@ -78,7 +66,7 @@ public class BookStorage {
      */
     public List<Book> getAll() {
         // TODO Add your code here...
-        return sortByTitle(new ArrayList<>(bookMap.values()));
+        return Collections.emptyList();
     }
 
     /**
@@ -86,7 +74,6 @@ public class BookStorage {
      */
     private List<Book> sortByTitle(List<Book> book) {
         // TODO Add your code here...
-        book.sort(Comparator.comparing(Book::getTitle));
         return book;
     }
 

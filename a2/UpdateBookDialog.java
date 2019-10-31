@@ -14,15 +14,10 @@ public class UpdateBookDialog extends BookPropertyDialog {
      */
     public void showBook(Book book) {
         // TODO Add your code here...
-        titleTextField.setText(book.getTitle());
-        authorsTextField.setText(book.getAuthors());
-        pagesTextField.setText(String.valueOf(book.getPages()));
-        categoryComboBox.setSelectedItem(book.getCategory().name());
     }
 
     @Override
     protected void doSave(Book book) {
         // TODO Add your code here...
-        bookCollection.update(book);
     }
 }

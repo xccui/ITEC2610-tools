@@ -71,10 +71,6 @@ public class BookListWindow extends JFrame {
         {
             // Set the layout for topPanel and add the buttons.
             // TODO Add your code here...
-            topPanel.setLayout(new GridLayout(1, 3));
-            topPanel.add(searchTextField);
-            topPanel.add(searchButton);
-            topPanel.add(clearButton);
         }
 
         //======== Middle ========
@@ -84,11 +80,9 @@ public class BookListWindow extends JFrame {
         {
             // Configure bookTitleList.
             //TODO Add your code here...
-            bookTitleList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-            bookTitleList.setModel(bookListModel);
-
-            titleListScrollPane.setViewportView(bookTitleList);
         }
+
+        titleListScrollPane.setViewportView(bookTitleList);
 
         //======== Bottom ========
         bottomPanel = new JPanel();
@@ -103,19 +97,12 @@ public class BookListWindow extends JFrame {
         {
             // Set the layout for bottomPanel and add the buttons.
             // TODO Add your code here...
-            bottomPanel.setLayout(new GridLayout(1, 4));
-            bottomPanel.add(addButton);
-            bottomPanel.add(detailButton);
-            bottomPanel.add(removeButton);
         }
 
         contentPane.setLayout(new BorderLayout());
         {
             // Add the components to contentPane with proper layout options.
             // TODO Add your code here...
-            contentPane.add(topPanel, BorderLayout.NORTH);
-            contentPane.add(titleListScrollPane, BorderLayout.CENTER);
-            contentPane.add(bottomPanel, BorderLayout.SOUTH);
         }
 
         pack();
@@ -127,8 +114,6 @@ public class BookListWindow extends JFrame {
      */
     private void searchAction(ActionEvent e) {
         // TODO Add your code here...
-        bookListModel.setBookList(bookStorage.titleSearch(searchTextField.getText()));
-        bookTitleList.updateUI();
     }
 
     /**
@@ -136,7 +121,6 @@ public class BookListWindow extends JFrame {
      */
     private void clearAction(ActionEvent e) {
         // TODO Add your code here...
-        resetToAll();
     }
 
     /**
@@ -144,8 +128,6 @@ public class BookListWindow extends JFrame {
      */
     private void addAction(ActionEvent e) {
         // TODO Add your code here...
-        AddBookDialog addBookDialog = new AddBookDialog(this);
-        addBookDialog.setVisible(true);
     }
 
     /**
@@ -153,11 +135,6 @@ public class BookListWindow extends JFrame {
      */
     private void detailAction(ActionEvent e) {
         // TODO Add your code here...
-        if (!bookTitleList.isSelectionEmpty()) {
-            UpdateBookDialog updateBookDialog = new UpdateBookDialog(this);
-            updateBookDialog.showBook(bookStorage.getByTitle(bookTitleList.getSelectedValue()));
-            updateBookDialog.setVisible(true);
-        }
     }
 
     /**
