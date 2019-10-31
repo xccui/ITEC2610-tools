@@ -1,7 +1,7 @@
 import javax.swing.AbstractListModel;
 
 /**
- * A book list model used for {@link javax.swing.JList}.
+ * A book list model used by {@link javax.swing.JList}.
  */
 public class BookArrayModel extends AbstractListModel<String> {
     private Book[] bookArray;

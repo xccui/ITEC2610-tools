@@ -2,12 +2,13 @@ import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.*;
 
 /**
  * BookListWindow
  */
-public class BookListWindow extends JFrame {
+public class BookListWindow extends JFrame implements ActionListener {
 
     //======== Top ========
     private JPanel topPanel;
@@ -65,8 +66,8 @@ public class BookListWindow extends JFrame {
         searchButton = new JButton("SEARCH");
         clearButton = new JButton("CLEAR");
 
-        searchButton.addActionListener(e -> searchAction(e));
-        clearButton.addActionListener(e -> clearAction(e));
+        searchButton.addActionListener(this);
+        clearButton.addActionListener(this);
 
         {
             // Set the layout for topPanel and add the buttons.
@@ -82,13 +83,13 @@ public class BookListWindow extends JFrame {
         bookTitleList = new JList<>();
 
         {
-            // Configure bookTitleList.
+            // Configure the bookTitleList 1) Use single selection
             //TODO Add your code here...
             bookTitleList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
             bookTitleList.setModel(bookListModel);
-
-            titleListScrollPane.setViewportView(bookTitleList);
         }
+
+        titleListScrollPane.setViewportView(bookTitleList);
 
         //======== Bottom ========
         bottomPanel = new JPanel();
@@ -96,9 +97,9 @@ public class BookListWindow extends JFrame {
         detailButton = new JButton("DETAIL");
         removeButton = new JButton("REMOVE");
 
-        addButton.addActionListener(e -> addAction(e));
-        detailButton.addActionListener(e -> detailAction(e));
-        removeButton.addActionListener(e -> removeAction(e));
+        addButton.addActionListener(this);
+        detailButton.addActionListener(this);
+        removeButton.addActionListener(this);
 
         {
             // Set the layout for bottomPanel and add the buttons.
@@ -122,55 +123,39 @@ public class BookListWindow extends JFrame {
         setLocationRelativeTo(getOwner());
     }
 
-    /**
-     * Action for the SEARCH button.
-     */
-    private void searchAction(ActionEvent e) {
-        // TODO Add your code here...
-        bookListModel.setBookArray(bookStorage.titleSearch(searchTextField.getText()));
-        bookTitleList.updateUI();
+    @Override
+    public void actionPerformed(ActionEvent e) {
+       if (e.getSource() == searchButton) {
+           // Action for the SEARCH button
+           // TODO Add your code here...
+           bookListModel.setBookArray(bookStorage.titleSearch(searchTextField.getText()));
+           bookTitleList.updateUI();
+       } else if (e.getSource() == clearButton) {
+           // Action for the CLEAR button
+           // TODO Add your code here...
+           resetToAll();
+       } else if (e.getSource() == addButton) {
+           // Action for the ADD button
+           // TODO Add your code here...
+           AddBookDialog addBookDialog = new AddBookDialog(this);
+           addBookDialog.setVisible(true);
+       } else if (e.getSource() == detailButton) {
+           // Action for the DETAIL button
+           // TODO Add your code here...
+           if (!bookTitleList.isSelectionEmpty()) {
+               UpdateBookDialog updateBookDialog = new UpdateBookDialog(this);
+               updateBookDialog.showBook(bookStorage.getByTitle(bookTitleList.getSelectedValue()));
+               updateBookDialog.setVisible(true);
+           }
+       } else if (e.getSource() == removeButton) {
+           // Action for the REMOVE button
+           if (!bookTitleList.isSelectionEmpty()) {
+               bookStorage.remove(bookTitleList.getSelectedValue());
+               JOptionPane.showMessageDialog(this, "Remove Successful!");
+               resetToAll();
+           }
+       }
     }
-
-    /**
-     * Action for the CLEAR button.
-     */
-    private void clearAction(ActionEvent e) {
-        // TODO Add your code here...
-        resetToAll();
-    }
-
-    /**
-     * Action for the ADD button.
-     */
-    private void addAction(ActionEvent e) {
-        // TODO Add your code here...
-        AddBookDialog addBookDialog = new AddBookDialog(this);
-        addBookDialog.setVisible(true);
-    }
-
-    /**
-     * Action for the DETAIL button.
-     */
-    private void detailAction(ActionEvent e) {
-        // TODO Add your code here...
-        if (!bookTitleList.isSelectionEmpty()) {
-            UpdateBookDialog updateBookDialog = new UpdateBookDialog(this);
-            updateBookDialog.showBook(bookStorage.getByTitle(bookTitleList.getSelectedValue()));
-            updateBookDialog.setVisible(true);
-        }
-    }
-
-    /**
-     * Action for the REMOVE button.
-     */
-    private void removeAction(ActionEvent e) {
-        if (!bookTitleList.isSelectionEmpty()) {
-            bookStorage.remove(bookTitleList.getSelectedValue());
-            JOptionPane.showMessageDialog(this, "Remove Successful!");
-            resetToAll();
-        }
-    }
-
 
     public static void main(String[] args) {
         BookStorage bookStore = new BookStorage();
