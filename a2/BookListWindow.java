@@ -27,11 +27,11 @@ public class BookListWindow extends JFrame {
 
     //======== Data ========
     private BookStorage bookStorage;
-    private BookListModel bookListModel;
+    private BookArrayModel bookListModel;
 
     public BookListWindow(BookStorage bookStorage) {
         this.bookStorage = bookStorage;
-        bookListModel = new BookListModel(bookStorage.getAll());
+        bookListModel = new BookArrayModel(bookStorage.getAll());
         initComponents();
     }
 
@@ -39,7 +39,7 @@ public class BookListWindow extends JFrame {
      * Clears the search results and list all the books.
      */
     public void resetToAll() {
-        bookListModel.setBookList(bookStorage.getAll());
+        bookListModel.setBookArray(bookStorage.getAll());
         searchTextField.setText("");
         bookTitleList.updateUI();
     }
@@ -127,7 +127,7 @@ public class BookListWindow extends JFrame {
      */
     private void searchAction(ActionEvent e) {
         // TODO Add your code here...
-        bookListModel.setBookList(bookStorage.titleSearch(searchTextField.getText()));
+        bookListModel.setBookArray(bookStorage.titleSearch(searchTextField.getText()));
         bookTitleList.updateUI();
     }
 

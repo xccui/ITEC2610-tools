@@ -1,16 +1,12 @@
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * A collection of {@link Book}.
  */
 public class BookStorage {
 
-    private Map<String, Book> bookMap;
+    private Book[] books = new Book[100];
 
     public BookStorage() {
 
@@ -21,16 +17,15 @@ public class BookStorage {
      */
     public void initBooks() {
         // TODO Add your code here...
-        bookMap = new HashMap<>();
-        bookMap.put("Book1", new Book("Book1", "AuthorA", 100, Book.BookCategory.Programming));
-        bookMap.put("Book2", new Book("Book2", "AuthorB", 200, Book.BookCategory.Design));
-        bookMap.put("Book3", new Book("Book3", "AuthorB", 300, Book.BookCategory.Database));
-        bookMap.put("Book4", new Book("Book4", "AuthorB", 400, Book.BookCategory.Programming));
-        bookMap.put("Book5", new Book("Book5", "AuthorB", 500, Book.BookCategory.Programming));
-        bookMap.put("Book11", new Book("Book11", "AuthorB", 600, Book.BookCategory.Database));
-        bookMap.put("Book21", new Book("Book21", "AuthorB", 700, Book.BookCategory.Programming));
-        bookMap.put("Book31", new Book("Book31", "AuthorB", 800, Book.BookCategory.Design));
-        bookMap.put("Book41", new Book("Book41", "AuthorB", 900, Book.BookCategory.Programming));
+        books[0] = new Book("Book1", "AuthorA", 100, Book.BookCategory.Programming);
+        books[1] = new Book("Book2", "AuthorB", 200, Book.BookCategory.Design);
+        books[2] = new Book("Book3", "AuthorB", 300, Book.BookCategory.Database);
+        books[3] = new Book("Book4", "AuthorB", 400, Book.BookCategory.Programming);
+        books[4] = new Book("Book5", "AuthorB", 500, Book.BookCategory.Programming);
+        books[5] = new Book("Book11", "AuthorB", 600, Book.BookCategory.Database);
+        books[6] = new Book("Book21", "AuthorB", 700, Book.BookCategory.Programming);
+        books[7] = new Book("Book31", "AuthorB", 800, Book.BookCategory.Design);
+        books[8] = new Book("Book41", "AuthorB", 900, Book.BookCategory.Programming);
     }
 
     /**
@@ -38,7 +33,12 @@ public class BookStorage {
      */
     public void update(Book book) {
         // TODO Add your code here...
-        bookMap.put(book.getTitle(), book);
+        for (int i = 0; i < books.length; ++i) {
+            if (null != books[i] && books[i].getTitle().equals(book.getTitle())) {
+                books[i] = book;
+                break;
+            }
+        }
     }
 
     /**
@@ -46,7 +46,12 @@ public class BookStorage {
      */
     public void remove(String bookTitle) {
         // TODO Add your code here...
-        bookMap.remove(bookTitle);
+        for (int i = 0; i < books.length; ++i) {
+            if (null != books[i] && books[i].getTitle().equals(bookTitle)) {
+                books[i] = null;
+                break;
+            }
+        }
     }
 
     /**
@@ -54,7 +59,12 @@ public class BookStorage {
      */
     public void add(Book book) {
         // TODO Add your code here...
-        bookMap.put(book.getTitle(), book);
+        for (int i = 0; i < books.length; ++i) {
+            if (null == books[i]) {
+                books[i] = book;
+                break;
+            }
+        }
     }
 
     /**
@@ -62,32 +72,59 @@ public class BookStorage {
      */
     public Book getByTitle(String title) {
         // TODO Add your code here...
-        return bookMap.get(title);
+        for (int i = 0; i < books.length; ++i) {
+            if (null != books[i] && books[i].getTitle().equals(title)) {
+                return books[i];
+            }
+        }
+        return null;
     }
 
     /**
      * Searches for books whose title contains the keyword and returns them ordered by titles (in alphabet order).
      */
-    public List<Book> titleSearch(String keyword) {
+    public Book[] titleSearch(String keyword) {
         // TODO Add your code here...
-        return sortByTitle(bookMap.entrySet().stream().filter(e -> e.getKey().contains(keyword)).map(Map.Entry::getValue).collect(Collectors.toList()));
+        int[] qualified = new int[100];
+        int num = 0;
+        for (int i = 0; i < books.length; ++i) {
+            if (null != books[i] && books[i].getTitle().contains(keyword)) {
+                qualified[num++] = i;
+            }
+        }
+        Book[] result = new Book[num];
+        for (int i = 0; i < num; ++i) {
+            result[i] = books[qualified[i]];
+        }
+        return sortByTitle(result);
     }
 
     /**
      * Returns all books sorted by their titles (in alphabet order).
      */
-    public List<Book> getAll() {
+    public Book[] getAll() {
         // TODO Add your code here...
-        return sortByTitle(new ArrayList<>(bookMap.values()));
+        int[] qualified = new int[100];
+        int num = 0;
+        for (int i = 0; i < books.length; ++i) {
+            if (null != books[i]) {
+                qualified[num++] = i;
+            }
+        }
+        Book[] result = new Book[num];
+        for (int i = 0; i < num; ++i) {
+            result[i] = books[qualified[i]];
+        }
+        return sortByTitle(result);
     }
 
     /**
-     * Sorts a list of books by their titles in alphabet order.
+     * Sorts an array of books by their titles in alphabet order.
      */
-    private List<Book> sortByTitle(List<Book> book) {
+    private Book[] sortByTitle(Book[] bookArray) {
         // TODO Add your code here...
-        book.sort(Comparator.comparing(Book::getTitle));
-        return book;
+        Arrays.sort(bookArray, Comparator.comparing(Book::getTitle));
+        return bookArray;
     }
 
 }
