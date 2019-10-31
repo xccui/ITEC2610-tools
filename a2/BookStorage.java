@@ -1,17 +1,10 @@
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * A collection of {@link Book}.
  */
 public class BookStorage {
 
-    private Map<String, Book> bookMap;
+    private Book[] books = new Book[100];
 
     public BookStorage() {
 
@@ -56,25 +49,25 @@ public class BookStorage {
     /**
      * Searches for books whose title contains the keyword and returns them ordered by titles (in alphabet order).
      */
-    public List<Book> titleSearch(String keyword) {
+    public Book[] titleSearch(String keyword) {
         // TODO Add your code here...
-        return Collections.emptyList();
+        return new Book[0];
     }
 
     /**
      * Returns all books sorted by their titles (in alphabet order).
      */
-    public List<Book> getAll() {
+    public Book[] getAll() {
         // TODO Add your code here...
-        return Collections.emptyList();
+        return new Book[0];
     }
 
     /**
-     * Sorts a list of books by their titles in alphabet order.
+     * Sorts an array of books by their titles in alphabet order.
      */
-    private List<Book> sortByTitle(List<Book> book) {
+    private Book[] sortByTitle(Book[] bookArray) {
         // TODO Add your code here...
-        return book;
+        return bookArray;
     }
 
 }
